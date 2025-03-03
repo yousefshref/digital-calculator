@@ -21,7 +21,7 @@ const Home = () => {
           setColumns(cols);
           // Initialize with one row (all zeros) if columns exist.
           if (cols.length > 0) {
-            setTableRows([new Array(cols.length).fill(0)]);
+            setTableRows([new Array(cols.length).fill("")]);
           }
         } else {
           console.error("No admin data found in Firestore.");
@@ -37,14 +37,14 @@ const Home = () => {
   const handleInputChange = (rowIndex, colIndex, value) => {
     const updatedRows = [...tableRows];
     const parsed = parseFloat(value);
-    updatedRows[rowIndex][colIndex] = isNaN(parsed) ? 0 : parsed;
+    updatedRows[rowIndex][colIndex] = isNaN(parsed) ? "" : parsed;
     setTableRows(updatedRows);
   };
 
   // Add a new row of inputs
   const addRow = () => {
     if (columns.length > 0) {
-      setTableRows([...tableRows, new Array(columns.length).fill(0)]);
+      setTableRows([...tableRows, new Array(columns.length).fill("")]);
     }
   };
 
@@ -88,7 +88,10 @@ const Home = () => {
           {tableRows.map((row, rowIndex) => (
             <tr key={rowIndex}>
               {row.map((cell, colIndex) => (
-                <td key={colIndex} className="border border-gray-300 md:px-4 px-1.5 md:py-2 py-1">
+                <td
+                  key={colIndex}
+                  className="border border-gray-300 md:px-4 px-1.5 md:py-2 py-1"
+                >
                   <input
                     type="number"
                     value={cell}
